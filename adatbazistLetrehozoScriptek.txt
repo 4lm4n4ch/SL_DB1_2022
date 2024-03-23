@@ -1,0 +1,852 @@
+CREATE TABLE Allaskereso (
+  email_cim VARCHAR2(255) PRIMARY KEY,
+  nev VARCHAR2(255) NOT NULL,
+  jelszo VARCHAR2(255) NOT NULL CHECK (LENGTH(jelszo) >= 8), -- Hozzáadva: CHECK constraint a jelszó hosszára
+  telefonszam VARCHAR2(20) NOT NULL UNIQUE -- Hozzáadva: UNIQUE constraint a telefonszámra
+);
+CREATE TABLE Iskolai_vegzettseg (
+  id NUMBER PRIMARY KEY, -- Hozzáadva: egyedi azonosító az iskolai végzettséghez
+  email_cim VARCHAR2(255) NOT NULL REFERENCES Allaskereso(email_cim),
+  iskolai_vegzettseg VARCHAR2(255) NOT NULL CHECK (LENGTH(iskolai_vegzettseg) > 0) -- Hozzáadva: CHECK constraint az iskolai végzettségre
+);
+
+
+CREATE TABLE Ceg (
+  ceg_id NUMBER PRIMARY KEY,
+  ceg_nev VARCHAR2(255) NOT NULL UNIQUE, -- Hozzáadva: UNIQUE constraint a cég nevére
+  kapcsolattarto_email_cim VARCHAR2(255) NOT NULL UNIQUE, -- Hozzáadva: UNIQUE constraint az email címre
+  kapcsolattarto_nev VARCHAR2(255) NOT NULL,
+  kapcsolattarto_telefonszam VARCHAR2(20) NOT NULL UNIQUE, -- Hozzáadva: UNIQUE constraint a telefonszámra
+kapcsolattarto_jelszo VARCHAR2(255) NOT NULL CHECK (LENGTH(kapcsolattarto_jelszo) >= 8)
+);
+CREATE TABLE Allasajanlat (
+  allas_id NUMBER PRIMARY KEY,
+  ceg_id NUMBER REFERENCES Ceg(ceg_id),
+  leiras VARCHAR2(4000) NOT NULL CHECK (LENGTH(leiras) > 0), -- Hozzáadva: CHECK constraint az állásleírásra
+  berezesi_intervallum VARCHAR2(255) NOT NULL CHECK (LENGTH(berezesi_intervallum) > 0), -- Hozzáadva: CHECK constraint a bérezési intervallumra
+  aktiv NUMBER NOT NULL CHECK (aktiv IN (0, 1)), -- Hozzáadva: CHECK constraint az aktiv értékre
+  torlo_username VARCHAR2(255) NOT NULL -- Eltávolítva: NOT NULL
+);
+CREATE TABLE Admin (
+  username VARCHAR2(255) PRIMARY KEY,
+  jelszo VARCHAR2(255) NOT NULL CHECK (LENGTH(jelszo) >= 8) -- Hozzáadva: CHECK constraint a jelszó hosszára
+);
+CREATE TABLE Jelentkezes (
+  allaskereso_email_cim VARCHAR2(255) REFERENCES Allaskereso(email_cim), 
+allas_id NUMBER REFERENCES Allasajanlat(allas_id),   PRIMARY KEY (allaskereso_email_cim, allas_id) -- Módosítva: PRIMARY KEY az allaskereso_email_cim és allas_id alapján
+); 
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('peter123@gmail.com', 'Péter Mária', 'jelszo123', '+36 20 123 4567');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('zsuzsa89@gmail.com', 'Kovács Zsuzsanna', 'jelszo456', '+36 30 456 7890');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('tamas85@gmail.com', 'Nagy Tamás', 'jelszo789', '+36 20 555 1212');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('lajoskuti@gmail.com', 'Lajoskuti Katalin', 'jelszo123', '+36 30 321 6549');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('gergo123@gmail.com', 'Gergõ Bálint', 'jelszo456', '+36 20 987 6543');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('julianna80@gmail.com', 'Bálint Julianna', 'jelszo789', '+36 30 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('peter234@gmail.com', 'Péter Barbara', 'jelszo123', '+36 20 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES 
+('nora67@gmail.com', 'Kovács Norbert', 'jelszo456', '+36 30 555 7777');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('gabor321@gmail.com', 'Nagy Gábor', 'jelszo789', '+36 20 123 0987');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('lajos123@gmail.com', 'Lajos Péter', 'jelszo123', '+36 30 098 7654');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('krisztian55@gmail.com', 'Krisztian Szabo', 'jelszo456', '+36 20 456 7890');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('niki09@gmail.com', 'Farkas Nikolett', 'jelszo789', '+36 30 333 2222');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('david83@gmail.com', 'Kiss Dávid', 'jelszo123', '+36 20 123 6547');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('zsolti99@gmail.com', 'Nagy Zsolt', 'jelszo456', '+36 30 555 1212');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('bea08@gmail.com', 'Papp Beatrix', 'jelszo789', '+36 20 333 4444');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('peti123@gmail.com', 'Péter János', 'jelszo123', '+36 30 321 6549');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('viktor21@gmail.com', 'Kovács Viktor', 'jelszo456', '+36 20 987 6543');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('anna44@gmail.com', 'Nagy Anna', 'jelszo789', '+36 30 111 2222');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES
+('tibor90@gmail.com', 'Lakatos Tibor', 'jelszo123', '+36 20 555 7777');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('anna93@gmail.com', 'Kiss Anna', 'jelszo789', '+36 70 987 6543');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('janos123@hotmail.com', 'Nagy János', 'jelszo111', '+36 20 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('mate87@yahoo.com', 'Varga Máté', 'jelszo222', '+36 30 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('maria95@gmail.com', 'Szabó Mária', 'jelszo333', '+36 70 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('gabor80@gmail.com', 'Kovács Gábor', 'jelszo444', '+36 20 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('petra92@gmail.com', 'Balogh Petra', 'jelszo555', '+36 30 999 0000');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('adam94@gmail.com', 'Kis Adám', 'jelszo666', '+36 70 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('eszter91@yahoo.com', 'Tóth Eszter', 'jelszo777', '+36 20 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('lajos96@hotmail.com', 'Pál Lajos', 'jelszo888', '+36 30 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('agnes88@gmail.com', 'Kovács Ágnes', 'jelszo999', '+36 70 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('tamas85@yahoo.com', 'Kiss Tamás', 'jelszo000', '+36 20 999 0000');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('erika89@gmail.com', 'Horváth Erika', 'jelszo1111', '+36 30 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('tibor82@gmail.com', 'Nagy Tibor', 'jelszo2222', '+36 70 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('robert90@gmail.com', 'Szabó Róbert', 'jelszo4444', '+36 30 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('zsolt84@hotmail.com', 'Kis Zsolt', 'jelszo5555', '+36 70 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('marika86@gmail.com', 'Nagy Marika', 'jelszo6666', '+36 20 999 0000');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('sara92@gmail.com', 'Kovács Sára', 'jelszo7777', '+36 30 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('judit83@yahoo.com', 'Tóth Judit', 'jelszo8888', '+36 70 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('andras87@gmail.com', 'Kovács András', 'jelszo9999', '+36 20 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('dora88@gmail.com', 'Nagy Dóra', 'jelszo0000', '+36 30 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('gizella91@hotmail.com', 'Kovács Gizella', 'jelszo11111', '+36 70 999 0000');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('mariann89@gmail.com', 'Kovács Mariann', 'jelszo22222', '+36 20 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('lajos87@yahoo.com', 'Szabó Lajos', 'jelszo33333', '+36 30 333 4444');
+
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('peter95@yahoo.com', 'Kovács Péter', 'jelszo77777', '+36 70 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('julcsi90@gmail.com', 'Kis Júlia', 'jelszo88888', '+36 20 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('mate87@hotmail.com', 'Tóth Máté', 'jelszo99999', '+36 30 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('anna93@yahoo.com', 'Nagy Anna', 'jelszo00000', '+36 70 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('david88@gmail.com', 'Kovács Dávid', 'jelszo111111', '+36 20 999 0000');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('eszter89@gmail.com', 'Nagy Eszter', 'jelszo222222', '+36 30 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('petra95@yahoo.com', 'Kovács Petra', 'jelszo333333', '+36 70 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('ferenc84@hotmail.com', 'Nagy Ferenc', 'jelszo444444', '+36 20 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('marika91@gmail.com', 'Kovács Marika', 'jelszo555555', '+36 30 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('andor89@yahoo.com', 'Kis András', 'jelszo666666', '+36 70 999 0000');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('tibor85@gmail.com', 'Kovács Tibor', 'jelszo777777', '+36 20 111 2222');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('klara88@gmail.com', 'Nagy Klára', 'jelszo888888', '+36 30 333 4444');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('peter90@yahoo.com', 'Kovács Péter', 'jelszo999999', '+36 70 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('katalin85@gmail.com', 'Nagy Katalin', 'jelszo44444', '+36 70 555 6666');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('julius92@hotmail.com', 'Kiss Július', 'jelszo55555', '+36 20 777 8888');
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam) VALUES ('eszter86@gmail.com', 'Nagy Eszter', 'jelszo66666', '+36 30 999 0000');
+
+
+
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('peter123@gmail.com', 'BSc Informatika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('zsuzsa89@gmail.com', 'MSc Pszichológia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('tamas85@gmail.com', 'BSc Közgazdaság');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('lajoskuti@gmail.com', 'MSc Mûszaki menedzser');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('gergo123@gmail.com', 'BSc Turizmus');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('julianna80@gmail.com', 'BSc Szociális munka');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('peter234@gmail.com', 'MSc Marketing');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('nora67@gmail.com', 'BSc Kommunikáció');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('gabor321@gmail.com', 'MSc Jog');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('szilvia12@gmail.com', 'BSc Biológia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('attila45@gmail.com', 'MSc Pénzügy');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('andrea23@gmail.com', 'BSc Turizmus');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('tamas89@gmail.com', 'MSc Mûszaki menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('adrienn34@gmail.com', 'BSc Környezetvédelem');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('balazs56@gmail.com', 'MSc Vállalati pénzügy');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('csilla78@gmail.com', 'BSc Ápolás');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('david90@gmail.com', 'MSc Informatika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('eszter12@gmail.com', 'BSc Pszichológia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('ferenc34@gmail.com', 'MSc Villamosmérnök');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('greta56@gmail.com', 'BSc Kémia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('henrik78@gmail.com', 'MSc Építõmérnök');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('ildiko90@gmail.com', 'BSc Földrajz');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('janos12@gmail.com', 'MSc Gépészmérnök');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('katalin34@gmail.com', 'BSc Pedagógia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('laszlo56@gmail.com', 'MSc Logisztika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('marietta78@gmail.com', 'BSc Társadalomtudomány');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('norbert90@gmail.com', 'MSc Sportmenedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('olga12@gmail.com', 'BSc Mûvészettörténet');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('pal34@gmail.com', 'MSc Közgazdász');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('rebeka56@gmail.com', 'BSc Idegennyelvi lektor');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('szabolcs78@gmail.com', 'MSc Mechatronika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('lajos123@gmail.com', 'BSc Egészségügy');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('krisztian55@gmail.com', 'BSc Építõmérnök');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('niki09@gmail.com', 'MSc Vizuális mûvészetek');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('viktor95@yahoo.com', 'BSc Informatika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('maria92@gmail.com', 'MSc Pszichológia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('gyula87@gmail.com', 'BSc Mûszaki menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('anna90@hotmail.com', 'MSc Emberi erõforrás menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('janos98@gmail.com', 'BSc Gazdálkodási és menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('andrea85@yahoo.com', 'MSc Pénzügy és számvitel');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('istvan87@gmail.com', 'BSc Kommunikáció és média');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('katalin88@hotmail.com', 'MSc Állam- és jogtudomány');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('tamas92@gmail.com', 'BSc Kereskedelem és marketing');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('agnes87@yahoo.com', 'MSc Gazdálkodási informatika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('gergely90@gmail.com', 'BSc Mechatronika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('noemi95@yahoo.com', 'MSc Üzleti elemzés és gazdálkodási tanácsadás');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('ferenc89@gmail.com', 'BSc Környezetmérnöki tudományok');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('zsolt93@hotmail.com', 'MSc Nemzetközi üzleti kapcsolatok');
+folytatom:
+
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('peter85@hotmail.com', 'MSc Környezettudomány');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('eszter87@gmail.com', 'BSc Agrármérnöki tudományok');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('krisztina90@yahoo.com', 'MSc Közgazdaságtan');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('andor89@gmail.com', 'BSc Sportmenedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('tibor92@hotmail.com', 'MSc Élelmiszeripari mérnöki tudományok');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('klara86@gmail.com', 'BSc Gyógyszerészeti tudományok');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('peter91@yahoo.com', 'MSc Média- és kommunikációs menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('katalin94@gmail.com', 'BSc Mûvészettörténet és elmélet');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('ferenc88@hotmail.com', 'MSc Informatikai rendszerek tervezése és menedzselése');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('noemi93@yahoo.com', 'BSc Pszichopedagógia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('gergely87@gmail.com', 'MSc Mérnöki menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('anna92@hotmail.com', 'BSc Társadalomtudomány');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('janos89@gmail.com', 'MSc Logisztikai menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('tamas87@yahoo.com', 'BSc Környezetvédelmi mérnöki tudományok');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('agnes88@gmail.com', 'MSc Üzleti és közszolgálati kommunikáció');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('gyula93@yahoo.com', 'BSc Humán erõforrások menedzsmentje');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('julcsi88@gmail.com', 'BSc Turizmus és szálloda menedzsment');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('lajos92@yahoo.com', 'MSc Üzleti jog');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('marika94@gmail.com', 'BSc Egészségügyi szolgáltatások menedzsmentje');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('david83@gmail.com', 'BSc Sportmenedzser');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('zsolti99@gmail.com', 'MSc Környezetvédelem');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('bea08@gmail.com', 'BSc Pedagógia');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('peti123@gmail.com', 'MSc Logisztika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('viktor21@gmail.com', 'BSc Számítástechnika');
+INSERT INTO Iskolai_vegzettseg (email_cim, iskolai_vegzettseg) VALUES ('anna44@gmail.com', 'MSc Humán erõforrás ');
+
+
+
+ 
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (1, 'Kézmû Kft.', 'info@kezmu.hu', 'Kovács Péter', '+36 20 123 4567', 'password123');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (2, 'Napsugár Zrt.', 'info@napsugar.hu', 'Kiss Gábor', '+36 20 234 5678', 'password456');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (3, 'Épületmax Kft.', 'info@epuletmax.hu', 'Nagy János', '+36 20 345 6789', 'password789');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (4, 'Virágosok Kft.', 'info@viragosok.hu', 'Bálint Ágnes', '+36 20 456 7890', 'passwordabc');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (5, 'Családi Pékség Kft.', 'info@csaladipaksag.hu', 'Tóth Zsolt', '+36 20 567 8901', 'passworddef');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (6, 'Széchenyi Sörözõ Kft.', 'info@szechenyisorozo.hu', 'Farkas Dávid', '+36 20 678 9012', 'passwordegf');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (7, 'Kéktói Kávézó Kft.', 'info@kektoikavezo.hu', 'Balogh Eszter', '+36 20 789 0123', 'passwordhij');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (8, 'Hegyi Házak Kft.', 'info@hegyihazak.hu', 'Kiss Ákos', '+36 20 890 1234', 'passwordklm');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (9, 'Pesterzsébeti Pékség Kft.', 'info@pesterzsebetipekseg.hu', 'Szabó László', '+36 20 901 2345', 'passwordnop');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (10, 'Arany Szarvas Vadászati Kft.', 'info@aranyszarvas.hu', 'Németh Gergõ', '+36 20 012 3456', 'passwordqrs');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (11, 'Nagy Zöldövezet Kft.', 'info@nagyzoldovezet.hu', 'Varga László', '+36 20 123 4567', 'passwordtuv');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (12, 'Váci Utcai Vállalkozók Kft.', 'info@vaciutcaivallalkozok.hu', 'Horváth Zsuzsanna', '+36 20 234 5678', 'passwordwxy');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (13, 'Csokoládé Mûhely Kft.', 'info@csokolademuhely.hu', 'Kovács Gábor', '+36 20 345 6789', 'passwordzab');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo)
+VALUES (14, 'Egyedi Dekoráció Kft.', 'info@egyedidekoracio.hu', 'Bálint Zsófia', '+36 20 456 7890', 'passwordcd');
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (15, 'Életfa Állatorvosi Rendelõ Kft.', 'info@eletfaallatorvos.hu', 'Fehér Csaba', '+36 20 567 8901', 'passwordefg');
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (16, 'Zalakarosi Fürdõ Zrt.', 'info@zalakarosifurdo.hu', 'Kovács Zsófia', '+36 20 678 9012', 'passwordghi');
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (17, 'Bécsi Úti Biobolt Kft.', 'info@becsiutibiobolt.hu', 'Kiss Katalin', '+36 20 789 0123', 'passwordijk');
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (18, 'Boldogasszonyi Piac Kft.', 'info@boldogasszonyipiac.hu', 'Nagy Lajos', '+36 20 890 1234', 'passwordklm');
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (19, 'Marhapörkölt Étterem Kft.', 'info@marhaporkoltetterem.hu', 'Balogh Péter', '+36 20 901 2345', 'passwordnop');
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (20, 'Kék Duna Kft.', 'info@kekduna.hu', 'Kovács Gábor', '+36 20 012 3456', 'passwordqrs');
+
+
+ 
+
+-- Kézmû Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(1, 1, 'Webfejlesztõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(2, 1, 'Grafikus', '200.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(3, 1, 'Marketing szakértõ', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+-- Napsugár Zrt.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(4, 2, 'Értékesítõ', '350.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(5, 2, 'Termékmenedzser', '400.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(6, 2, 'HR specialist', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+-- Épületmax Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(7, 3, 'Építészmérnök', '350.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(8, 3, 'Kivitelezõ', '400.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(9, 3, 'Ingatlanértékesítõ', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+-- Virágosok Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(10, 4, 'Virágkötõ', '200.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(11, 4, 'Virágüzlet vezetõ', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(12, 4, 'Kertépítõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+-- Családi Pékség Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(13, 5, 'Pék', '200.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(14, 5, 'Értékesítõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(15, 5, 'Cukrász', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+-- Széchenyi Sörözõ Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(16, 6, 'Pincér', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(17, 6, 'Konyhai kisegítõ', '150.000 - 200.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(18, 6, 'Séf', '350.000 - 450.000 Ft/hó', 1, 'admin');
+
+-- Kéktói Kávézó Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(19, 7, 'Barista', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(20, 7, 'Sütemény készítõ', '150.000 - 200.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(21, 7, 'Pincér', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+-- Hegyi Házak Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(22, 8, 'Ingatlan értékbecslõ', '350.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(23, 8, 'Ingatlan tanácsadó', '400.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(24, 8, 'Ingatlan ügyvéd', '400.000 - 500.000 Ft/hó', 1, 'admin');
+
+-- Pesterzsébeti Pékség Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(25, 9, 'Pék', '200.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(26, 9, 'Cukrász', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(27, 9, 'Kenyérsütõ', '200.000 - 300.000 Ft/hó', 1, 'admin');
+
+-- Arany Szarvas Vadászati Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(28, 10, 'Vadászati terület õre', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(29, 10, 'Vadászati fegyvermester', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(30, 10, 'Vadász', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+-- Nagy Zöldövezet Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(31, 11, 'Kertészeti munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(32, 11, 'Kertépítõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(33, 11, 'Kerttervezõ', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+-- Édes Otthon Alapítvány
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(34, 12, 'Gondozó', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(35, 12, 'Szerelõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(36, 12, 'Házi segítségnyújtó', '200.000 - 300.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (73, 13, 'HR asszisztens', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (74, 13, 'Könyvelõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (75, 13, 'Projekt koordinátor', '300.000 - 400.000 Ft/hó', 1, 'admin'); INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (76, 13, 'Marketing specialist', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES
+(77, 14, 'Csokoládé készítõ', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (78, 14, 'Cukrász', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (79, 14, 'Eladó', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (80, 14, 'Marketing asszisztens', '200.000 - 300.000 Ft/hó', 1, 'admin');
+
+-- Egyedi Dekoráció Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (81, 15, 'Dekorátor', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (82, 15, 'Kreatív munkatárs', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (83, 15, 'Grafikus', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (84, 15, 'Marketing koordinátor', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+-- Életfa Állatorvosi Rendelõ Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (85, 16, 'Állatorvos', '350.000 - 450.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (86, 16, 'Gondozó', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (87, 16, 'Gyógytornász', '250.000 - 350.000 Ft/hó', 1, 'admin'); 
+
+
+INSERT INTO Allasajanlat ( allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (88, 16, 'Recepciós', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+-- Zalakarosi Fürdõ Zrt.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (89, 17, 'Recepciós', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (90, 17, 'Fürdõszobai kisegítõ', '150.000 - 200.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (91, 17, 'Étterem munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (92, 17, 'Pénztáros', '150.000 - 200.000 Ft/hó', 1, 'admin');
+
+-- Bécsi Úti Biobolt Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (93, 18, 'Eladó', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (94, 18, 'Boltvezetõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (95, 18, 'Marketing koordinátor', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (96, 18, 'Adminisztrációs munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+-- Boldogasszonyi Piac Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (97, 19, 'Bolti eladó', '150.000 - 200.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (98, 19, 'Élelmiszerbolt vezetõ', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (99, 19, 'Marketing specialist', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (100, 19, 'Adminisztrációs munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+-- Marhapörkölt Étterem Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (101, 20, 'Séf', '400.000 - 500.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (102, 20, 'Felszolgáló', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (103, 20, 'Pultos', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (104, 20, 'Takarító', '150.000 - 200.000 Ft/hó', 1, 'admin');
+
+-- Kék Duna Kft.
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (105, 7, 'Tisztító', '500.000 - 600.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (106, 2, 'Tisztító', '150.000 - 200.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (107, 1, 'Vendéglátós munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin'); 
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (108, 10, 'Adminisztrációs munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Jelentkezes (allaskereso_email_cim, ceg_id)
+VALUES ('krisztian55@gmail.com', 1);
+
+INSERT INTO Jelentkezes (allaskereso_email_cim, ceg_id)
+VALUES ('niki09@gmail.com', 1);
+
+INSERT INTO Admin (username, jelszo)
+VALUES ('admin1', 'adminjelszo');
+
+INSERT INTO Admin (username, jelszo)
+VALUES ('admin2', 'adminjelszo');
+
+INSERT INTO Admin (username, jelszo)
+VALUES ('admin3', 'adminjelszo');
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('katalin.kovacs@example.com', 'Katalin Kovács', 'jelszo2', '06301234567');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('tamas.toth@example.com', 'Tamás Tóth', 'jelszo3', '06302345678');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('szabolcs.szabo@example.com', 'Szabolcs Szabó', 'jelszo4', '06303456789');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('agnes.nagy@example.com', 'Ágnes Nagy', 'jelszo5', '06304567890');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('ferenc.fekete@example.com', 'Ferenc Fekete', 'jelszo6', '06305678901');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('gabriella.gulyas@example.com', 'Gabriella Gulyás', 'jelszo7', '06306789012');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('lajos.lakatos@example.com', 'Lajos Lakatos', 'jelszo8', '06307890123');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('marta.molnar@example.com', 'Márta Molnár', 'jelszo9', '06308901234');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('orsolya.orban@example.com', 'Orsolya Orbán', 'jelszo10', '06309012345');
+
+INSERT INTO Allaskereso (email_cim, nev, jelszo, telefonszam)
+VALUES ('peter.papp@example.com', 'Péter Papp', 'jelszo11', '06300123456');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///UJ de nagyon friss.
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (21, 'Iota Ügyvédi Iroda Kft.', 'info@iotakft.hu', 'Papp István', '+36 20 567 8901', 'jelszo6969');
+Ajanlatok:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (200, 21, 'Junior ügyvéd', '300.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (201, 21, 'Szakmai gyakornok', '150.000 - 200.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (202, 21, 'Ügyvéd', '450.000 - 600.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (203, 21, 'Titkárnõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (204, 21, 'Adminisztrátor', '250.000 - 350.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (22, 'Kappa Biztonságtechnikai Kft.', 'info@kappakft.hu', 'Balogh Erzsébet', '+36 70 678 9012', 'jelszo2626');
+
+Ajanlatok:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (300, 22, 'Biztonsági technikus', '280.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (301, 22, 'Biztonsági rendszerek üzemeltetõje', '350.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (302, 22, 'Szerelõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (303, 22, 'Raktáros', '200.000 - 280.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (304, 22, 'Értékesítõ', '300.000 - 400.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (23, 'Egyedi Design Kft.', 'info@egyedidesign.hu', 'Nagy Zoltán', '+36 30 345 6789', 'jelszo789');
+ajánlatok:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (400, 23, 'Belsõépítész', '350.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (401, 23, 'Grafikus', '300.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (402, 23, 'Webfejlesztõ', '400.000 - 550.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (403, 23, 'Projektmenedzser', '500.000 - 700.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (404, 23, 'Marketing szakértõ', '350.000 - 500.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (24, 'Aranykapu Kereskedelmi Kft.', 'info@aranykapu.hu', 'Kovács Péter', '+36 70 456 7890', 'jelszo1234');
+ajanlatook:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (500, 24, 'Értékesítõ', '300.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (501, 24, 'Pénzügyi tanácsadó', '400.000 - 550.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (502, 24, 'Marketing szakértõ', '350.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (503, 24, 'HR asszisztens', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (504, 24, 'Webfejlesztõ', '400.000 - 550.000 Ft/hó', 1,'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (25, 'Varga és Társai Bt.', 'info@vargatasai.hu', 'Varga Gábor', '+36 20 567 8901', 'jelszo5678');
+ajanlatok:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (600, 25, 'Értékesítõ', '300.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (601, 25, 'Pénzügyi tanácsadó', '400.000 - 550.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (602, 25, 'Marketing szakértõ', '350.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (603, 25, 'HR asszisztens', '250.000 - 350.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (604, 25, 'Webfejlesztõ', '400.000 - 550.000 Ft/hó', 1,'admin');
+
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (26, 'Mûanyagipari Kft.', 'info@muanyagipar.hu', 'Kis Anna', '+36 30 678 9012', 'jelszo9101');
+
+allasajanlat:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (700, 26, 'Gyártósori munkás', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (701, 26, 'Raktáros', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (702, 26, 'Szállítmányozási ügyintézõ', '350.000 - 500.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (703, 26, 'Mûszaki rajzoló', '400.000 - 550.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (704, 26,'Marketing asszisztens', '300.000 - 450.000 Ft/hó', 1,'admin');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (27, 'Fõnix Kereskedelmi és Szolgáltató Kft.', 'info@fonixkft.hu', 'Nagy Eszter', '+36 70 789 0123', 'jelszo1212');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (704, 27,'Marketing asszisztens', '300.000 - 450.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (705, 27,'Könyvelõ', '400.000 - 500.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (706, 27,'HR Generalista', '350.000 - 450.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (707, 27,'Értékesítõ', '300.000 - 500.000 Ft/hó', 1,'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (708, 27,'Recepciós', '250.000 - 350.000 Ft/hó', 1,'admin');
+
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (28, 'Kovács és Társai Kft.', 'info@kovacstarsi.hu', 'Kovács Zsuzsanna', '+36 20 890 1234', 'jelszo3434');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (29, 'Varga és Fiai Bt.', 'info@vargafiai.hu', 'Varga Péter', '+36 30 901 2345', 'jelszo5656');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (30, 'Lakberendezõ Kft.', 'info@lakberendezo.hu', 'Nagy Gábor', '+36 70 234 5678', 'jelszo7878');
+
+Ajanlatok:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (400, 30, 'Belsõépítész', '350.000 - 500.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (401, 30, 'Lakberendezõ', '300.000 - 450.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (402, 30, 'Értékesítõ', '250.000 - 350.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (403, 30, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (404, 30, 'Raktáros', '200.000 - 280.000 Ft/hó', 1, 'admin');
+
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (31, 'Alfa Kft.', 'info@alfakft.hu', 'Kiss János', '+36 30 345 6789', 'jelszo2121');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (405, 31, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (406, 31, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (407, 31, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (408, 31, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (409, 31, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (32, 'Beta Bt.', 'info@betabt.hu', 'Kovácsné Eszter', '+36 20 456 7890', 'jelszo9898');
+allas:
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (410, 32, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (411, 32, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (412, 32, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (413, 32, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (414, 32, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (33, 'Gamma Kereskedelmi Kft.', 'info@gammakft.hu', 'Nagy Gábor', '+36 70 567 8901', 'jelszo3434');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (415, 33, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (416, 33, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (417, 33, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (418, 33, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (419, 33, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (34, 'Kovács és Fiai Bt.', 'info@kovacsfiai.hu', 'Kovács Péter', '+36 20 678 9012', 'jelszo6767');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (420, 34, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (421, 34, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (422, 34, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (423, 34, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (424, 34, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (35, 'Varga Kereskedelmi és Szolgáltató Kft.', 'info@vargakft.hu', 'Varga Zsuzsanna', '+36 30 789 0123', 'jelszo2323');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (425, 35, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (426, 35, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (427, 35, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (428, 35, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (429, 35, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (36, 'Delta Szolgáltató Kft.', 'info@deltakft.hu', 'Tóth László', '+36 70 890 1234', 'jelszo4545');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (430, 36, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (431, 36, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (432, 36, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (433, 36, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (434, 36, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (37, 'Epsilon Építõipari Kft.', 'info@epsilonkft.hu', 'Horváth József', '+36 30 901 2345', 'jelszo7070');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (435, 37, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (436, 37, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (437, 37, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (438, 37, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (439, 37, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (38, 'Zeta Autókereskedés Kft.', 'info@zetakft.hu', 'Szabó Katalin', '+36 20 234 5678', 'jelszo2424');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (440, 38, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (441, 38, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (442, 38, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (443, 38, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (444, 38, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (39, 'Eta Kft.', 'info@etakft.hu', 'Molnár Attila', '+36 70 345 6789', 'jelszo6868');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (445, 39, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (446, 39, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (447, 39, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (448, 39, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (449, 39, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (40, 'Theta Szállítási és Logisztikai Kft.', 'info@thetakft.hu', 'Farkas Mária', '+36 30 456 7890', 'jelszo2525');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (455, 40, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (456, 40, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (457, 40, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (458, 40, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (459, 40, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+
+INSERT INTO Ceg (ceg_id, ceg_nev, kapcsolattarto_email_cim, kapcsolattarto_nev, kapcsolattarto_telefonszam, kapcsolattarto_jelszo) VALUES (41, 'Mérnöki Kft.', 'info@muanyagipar.hu', 'Kis Gábor', '+36 70 890 1234', 'jelszo4545');
+
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (450, 41, 'Értékesítési munkatárs', '220.000 - 300.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (451, 41, 'Ügyfélszolgálati munkatárs', '180.000 - 250.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (452, 41, 'Marketing menedzser', '300.000 - 400.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (453, 41, 'Logisztikai koordinátor', '240.000 - 320.000 Ft/hó', 1, 'admin');
+INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username) VALUES (454, 41, 'Könyvelõ', '230.000 - 310.000 Ft/hó', 1, 'admin');
+
+
+
+ 
+//ÁLLÁSKERESÕ TRIGGER
+
+
+create or replace NONEDITIONABLE TRIGGER Allaskereso_email_format
+BEFORE INSERT OR UPDATE OF email_cim ON Allaskereso
+FOR EACH ROW
+BEGIN
+  IF NOT REGEXP_LIKE(:NEW.email_cim, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$') THEN
+    RAISE_APPLICATION_ERROR(-20004, 'Az email cím nem megfelelõ formátumú.');
+  END IF;
+END;
+
+create or replace NONEDITIONABLE TRIGGER Allaskereso_jelszo_hossz
+BEFORE INSERT OR UPDATE OF jelszo ON Allaskereso
+FOR EACH ROW
+BEGIN
+  IF LENGTH(:NEW.jelszo) < 8 THEN
+    RAISE_APPLICATION_ERROR(-20003, 'A jelszónak legalább 8 karakter hosszúnak kell lennie.');
+  END IF;
+END;
+
+create or replace NONEDITIONABLE TRIGGER Allaskereso_telefonszam_hossz
+BEFORE INSERT OR UPDATE OF telefonszam ON Allaskereso
+FOR EACH ROW
+BEGIN
+  IF LENGTH(:NEW.telefonszam) != 10 THEN
+    RAISE_APPLICATION_ERROR(-20002, 'A telefonszámnak 10 karakter hosszúnak kell lennie.');
+  END IF;
+END;
+
+create or replace NONEDITIONABLE TRIGGER ellenorzes_email_cim_unique
+BEFORE INSERT ON Allaskereso
+FOR EACH ROW
+DECLARE
+  email_exists NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO email_exists FROM Allaskereso WHERE email_cim = :NEW.email_cim;
+  IF email_exists > 0 THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Az email cím már használatban van!');
+  END IF;
+END;
+
+//CÉG TRIGGER
+
+create or replace NONEDITIONABLE TRIGGER Ceg_jelszo_hossz
+BEFORE INSERT OR UPDATE OF kapcsolattarto_jelszo ON Ceg
+FOR EACH ROW
+BEGIN
+  IF LENGTH(:NEW.kapcsolattarto_jelszo) < 8 THEN
+    RAISE_APPLICATION_ERROR(-20004, 'A jelszónak legalább 8 karakter hosszúnak kell lennie.');
+  END IF;
+END;
+
+create or replace NONEDITIONABLE TRIGGER Ceg_telefonszam_hossz
+BEFORE INSERT OR UPDATE OF kapcsolattarto_telefonszam ON Ceg
+FOR EACH ROW
+BEGIN
+  IF LENGTH(:NEW.kapcsolattarto_telefonszam) != 10 THEN
+    RAISE_APPLICATION_ERROR(-20005, 'A telefonszámnak 10 karakter hosszúnak kell lennie.');
+  END IF;
+END;
+
+create or replace NONEDITIONABLE TRIGGER ceg_trigger
+    BEFORE INSERT ON ceg
+    FOR EACH ROW
+BEGIN
+    SELECT ceg_seq.NEXTVAL INTO :new.ceg_id FROM dual;
+END;
+
+
+
+create or replace NONEDITIONABLE TRIGGER system.repcatlogtrig
+AFTER UPDATE OR DELETE ON system.repcat$_repcatlog
+BEGIN
+  sys.dbms_alert.signal('repcatlog_alert', '');
+END;
+
+//functions
+create or replace NONEDITIONABLE FUNCTION aktiv_allasajanlatok_szama RETURN NUMBER AS
+            v_szam NUMBER;
+            BEGIN
+            SELECT COUNT(*)
+            INTO v_szam
+            FROM Allasajanlat
+            WHERE aktiv = 1;
+            RETURN v_szam;
+            END;
+//procedures
+
+create or replace NONEDITIONABLE PROCEDURE add_allasajanlat(
+            p_ceg_id NUMBER,
+            p_leiras VARCHAR2,
+            p_berezesi_intervallum VARCHAR2,
+            p_aktiv NUMBER,
+            p_torlo_username VARCHAR2
+    ) IS
+    BEGIN
+    INSERT INTO Allasajanlat (allas_id, ceg_id, leiras, berezesi_intervallum, aktiv, torlo_username)
+    VALUES (allas_id_seq.NEXTVAL, p_ceg_id, p_leiras, p_berezesi_intervallum, p_aktiv, p_torlo_username);
+    COMMIT;
+    EXCEPTION
+    WHEN OTHERS THEN
+            ROLLBACK;
+    RAISE;
+    END;
+
+create or replace NONEDITIONABLE PROCEDURE allasajanlat_inaktiv (p_allas_id IN NUMBER) AS
+BEGIN
+UPDATE Allasajanlat
+SET aktiv = 0
+WHERE allas_id = p_allas_id;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE get_all_jelentkezes (
+        p_email_cim IN VARCHAR2,
+        p_cursor OUT SYS_REFCURSOR
+        ) IS
+        BEGIN
+        OPEN p_cursor FOR
+        SELECT j.allaskereso_email_cim, j.allas_id
+        FROM Jelentkezes j
+        WHERE j.allaskereso_email_cim = p_email_cim;
+        END;
+
+
+create or replace NONEDITIONABLE PROCEDURE allaskereso_torles (p_email_cim IN VARCHAR2) AS
+BEGIN
+  DELETE FROM Jelentkezes WHERE allaskereso_email_cim = p_email_cim;
+  DELETE FROM Iskolai_vegzettseg WHERE email_cim = p_email_cim;
+  DELETE FROM Allaskereso WHERE email_cim = p_email_cim;
+END;
+
+
+
+
+
+
+
+
+
+create or replace NONEDITIONABLE PROCEDURE ceg_torles (p_ceg_id IN NUMBER) AS
+BEGIN
+  -- Töröljük az összes jelentkezést, ahol az adott állás a cégnél található.
+  DELETE FROM Jelentkezes j
+  WHERE j.allas_id IN (
+    SELECT a.allas_id
+    FROM Allasajanlat a
+    WHERE a.ceg_id = p_ceg_id
+  );
+
+  -- Töröljük az összes állásajánlatot, amely a cégnél található.
+  DELETE FROM Allasajanlat WHERE ceg_id = p_ceg_id;
+
+  -- Töröljük a céget.
+  DELETE FROM Ceg WHERE ceg_id = p_ceg_id;
+END;
+
+
+//új
+
+
+
+
+
+
+CREATE SEQUENCE iskolai_vegzettseg_seq;
+
+CREATE OR REPLACE TRIGGER iskolai_vegzettseg_trigger
+  BEFORE INSERT ON Iskolai_vegzettseg
+  FOR EACH ROW
+BEGIN
+  SELECT iskolai_vegzettseg_seq.NEXTVAL
+  INTO :new.id
+  FROM dual;
+END;
+/
+
+
+
+
+
+
+
+
+
+
+
+
